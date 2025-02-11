@@ -1,8 +1,7 @@
 # **S3Flow**  
-[![Go Version](https://img.shields.io/badge/Go-1.20+-blue)](https://golang.org/) [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Go Version](https://img.shields.io/badge/Go-1.20+-blue)](https://golang.org/)
 
-
-S3Flow is a utility tool designed to generate permutations of AWS S3 bucket names based on common prefixes, company names, and predefined environments.
+S3Flow is a utility tool designed to generate permutations of AWS S3 bucket names based on common prefixes, company names, and predefined environments.  
 This tool is specially designed for Bug Bounty Hunters and Pentesters.
 
 ---
@@ -15,13 +14,11 @@ This tool is specially designed for Bug Bounty Hunters and Pentesters.
 ### Steps
 
 #### Using Go Install
-
 ```bash    
 go install github.com/saeed0xf/s3flow@latest
 ```
 
 #### Traditional way
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/saeed0xf/s3flow.git
@@ -50,37 +47,63 @@ go install github.com/saeed0xf/s3flow@latest
 S3Flow uses command-line flags to customize its behavior. Here's how to use it:
 
 ```bash
-s3flow -w <common_prefix_wordlist> -org <company_name> [-o <output_file>]
+s3flow -w <common_prefix_wordlist> -org <company_name> [-o <output_file>] [-medium] [-large]
 ```
 
 Example Common Prefixes: [wordlist](https://raw.githubusercontent.com/koaj/aws-s3-bucket-wordlist/master/list.txt)
 
 ### Flags
+
 | Flag       | Description                                   | Required? | Default Value         |
 |------------|-----------------------------------------------|-----------|-----------------------|
-| `-w`       | Common prefix for bucket names                | Yes       | N/A                   |
+| `-w`       | Common prefix wordlist file                   | Yes       | N/A                   |
 | `-org`     | Company or organization name                  | Yes       | N/A                   |
 | `-o`       | Output file name                              | No        | `generated_wordlist.txt` |
+| `-medium`  | Use medium-sized environment list             | No        | `false`               |
+| `-large`   | Use large environment list                    | No        | `false`               |
+
+### Environment Lists
+- **Small**: Includes basic environments like `dev`, `prod`, `stage`, etc.
+- **Medium**: Adds more environments like `uat`, `qa`, `sandbox`, etc.
+- **Large**: Includes all possible environments, such as `backup`, `cdn`, `api`, etc.
 
 ### Example Usage
-Generate a wordlist with the prefixs for the company `MyCompany`:
+
+#### Generate a Small Wordlist (Default)
 ```bash
 s3flow -w wordlist.txt -org MyCompany -o output.txt
 ```
-
 This will:
 1. Use `wordlist.txt` as the common prefixes.
 2. Incorporate `MyCompany` into the permutations.
-3. Save the results to `output.txt`.
+3. Save the results to `output.txt` using the small environment list.
+
+#### Generate a Medium-Sized Wordlist
+```bash
+s3flow -w wordlist.txt -org MyCompany -o output.txt -medium
+```
+This will:
+1. Use `wordlist.txt` as the common prefixes.
+2. Incorporate `MyCompany` into the permutations.
+3. Save the results to `output.txt` using the medium environment list.
+
+#### Generate a Large Wordlist
+```bash
+s3flow -w wordlist.txt -org MyCompany -o output.txt -large
+```
+This will:
+1. Use `wordlist.txt` as the common prefixes.
+2. Incorporate `MyCompany` into the permutations.
+3. Save the results to `output.txt` using the large environment list.
 
 ---
 
 ## **How It Works**
 
 S3Flow generates permutations by combining:
-1. **Common Prefixes**: User-defined file.
+1. **Common Prefixes**: User-defined prefixes from the provided wordlist file.
 2. **Company Name**: The organization name provided via the `-org` flag.
-3. **Environments**: Predefined environments like `dev`, `prod`, `stage`, etc.
+3. **Environments**: Predefined environments like `dev`, `prod`, `stage`, etc., selected based on the `-medium` or `-large` flags.
 4. **Formats**: Various naming conventions such as `prefix-word-env`, `prefix.word.env`, etc.
 
 The tool ensures no duplicates are present in the final output.
@@ -112,4 +135,4 @@ We welcome contributions from the community! Here's how you can help:
 For questions, suggestions, or feedback, feel free to reach out:
 - Twitter/X: [Saeed0x1](https://x.com/saeed0x1)
 - Linkedin: [Saeed0x1](https://www.linkedin.com/in/saeed0x1) 
-- GitHub: [@saeed0xf](https://github.com/saeed0xf)
+- GitHub: [saeed0xf](https://github.com/saeed0xf)
