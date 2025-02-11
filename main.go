@@ -11,14 +11,14 @@ import (
 	"github.com/cheggaaa/pb/v3"
 )
 
-// GenerateWordlist generates permutations of bucket names based on environments
+// generates permutations of bucket names based on environments
 func GenerateWordlist(commonPrefix string, orgName string, environments []string) []string {
 	var list []string
 	// Raw permutation
 	list = append(list, fmt.Sprintf("%s-%s", orgName, commonPrefix))
 	list = append(list, fmt.Sprintf("%s.%s", orgName, commonPrefix))
 
-	// Environment permutations
+	// environment permutations
 	for _, env := range environments {
 		formats := []string{
 			"%s-%s-%s", "%s-%s.%s", "%s-%s%s", "%s.%s-%s", "%s.%s.%s",
@@ -28,14 +28,14 @@ func GenerateWordlist(commonPrefix string, orgName string, environments []string
 		}
 	}
 
-	// Host permutations
+	// host permutations
 	formats := []string{"%s.%s", "%s-%s", "%s%s"}
 	for _, format := range formats {
 		list = append(list, fmt.Sprintf(format, orgName, commonPrefix))
 		list = append(list, fmt.Sprintf(format, commonPrefix, orgName))
 	}
 
-	// Remove duplicates
+	// keep the unique ones
 	uniqueList := make(map[string]struct{})
 	for _, item := range list {
 		uniqueList[item] = struct{}{}
@@ -47,7 +47,7 @@ func GenerateWordlist(commonPrefix string, orgName string, environments []string
 	return result
 }
 
-// ReadWordlistFromFile reads a wordlist from a file
+// read wordlist file
 func ReadWordlistFromFile(filename string) ([]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -63,7 +63,7 @@ func ReadWordlistFromFile(filename string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-// SaveWordlistToFile saves the generated wordlist to a file with a progress bar
+// save the generated wordlist
 func SaveWordlistToFile(wordlist []string, filename string) error {
 	file, err := os.Create(filename)
 	if err != nil {
@@ -73,7 +73,7 @@ func SaveWordlistToFile(wordlist []string, filename string) error {
 
 	writer := bufio.NewWriter(file)
 
-	// Create a progress bar
+	// progress bar
 	bar := pb.StartNew(len(wordlist))
 	defer bar.Finish()
 
@@ -83,7 +83,7 @@ func SaveWordlistToFile(wordlist []string, filename string) error {
 			return err
 		}
 		bar.Increment()
-		time.Sleep(1 * time.Millisecond) // Progress bar visualization
+		time.Sleep(1 * time.Millisecond)
 	}
 
 	writer.Flush()
@@ -91,7 +91,7 @@ func SaveWordlistToFile(wordlist []string, filename string) error {
 }
 
 func main() {
-	// Define command-line arguments
+	// command-line arguments
 	wordlistFile := flag.String("w", "", "Path to the wordlist file (common prefixes)")
 	orgName := flag.String("org", "", "Organization name")
 	outputFile := flag.String("o", "generated_wordlist.txt", "Output file name")
@@ -99,13 +99,13 @@ func main() {
 	largeFlag := flag.Bool("large", false, "Use large environment list")
 	flag.Parse()
 
-	// Validate required arguments
+	// required arguments
 	if *wordlistFile == "" || *orgName == "" {
 		fmt.Println("Usage: s3flow -w <wordlist_file> -org <organization_name> [-o <output_file>] [-medium] [-large]")
 		return
 	}
 
-	// Define environment lists
+	// environment lists
 	smallEnvironments := []string{
 		"dev", "development", "stage", "s3", "staging", "prod", "production", "test",
 	}
@@ -127,7 +127,7 @@ func main() {
 		"logs", "logging", "metrics", "monitoring", "analytics", "reporting", "cache", "cdn", "static", "media", "assets", "files", "uploads", "downloads", "shared", "public", "external",
 	}
 
-	// Select environment list based on flags
+	// environment list based on flags
 	var environments []string
 	if *largeFlag {
 		environments = largeEnvironments
@@ -137,14 +137,14 @@ func main() {
 		environments = smallEnvironments
 	}
 
-	// Read wordlist file
+	// read wordlist file
 	commonPrefixes, err := ReadWordlistFromFile(*wordlistFile)
 	if err != nil {
 		fmt.Printf("Error reading wordlist file: %v\n", err)
 		return
 	}
 
-	// Generate wordlist for each common prefix
+	// generate wordlist for each common prefix
 	var wordlist []string
 	for _, commonPrefix := range commonPrefixes {
 		wordlist = append(wordlist, GenerateWordlist(commonPrefix, *orgName, environments)...)
@@ -152,7 +152,7 @@ func main() {
 
 	fmt.Printf("Generated wordlist with %d items.\n", len(wordlist))
 
-	// Save the wordlist to a file
+	// write wordlist
 	err = SaveWordlistToFile(wordlist, *outputFile)
 	if err != nil {
 		fmt.Printf("Error saving wordlist to file: %v\n", err)
