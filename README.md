@@ -14,13 +14,13 @@ This tool is specially designed for Bug Bounty Hunters and Pentesters.
 
 ### Steps
 
-- using Go install
+#### Using Go Install
 
     ```
     go install github.com/saeed0xf/s3flow@latest
     ```
 
-- Traditional way
+#### Traditional way
 
 1. Clone the repository:
    ```bash
@@ -103,11 +103,6 @@ We welcome contributions from the community! Here's how you can help:
    ```
 5. Open a pull request on GitHub.
 
----
-
-## **License**
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 ---
 
 ## **Contact**
