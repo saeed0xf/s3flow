@@ -1,8 +1,7 @@
 # **S3Flow**  
 [![Go Version](https://img.shields.io/badge/Go-1.20+-blue)](https://golang.org/)
 
-S3Flow is a utility tool designed to generate permutations of AWS S3 bucket names based on common prefixes, company names, and predefined environments.  
-This tool is specially designed for Bug Bounty Hunters and Pentesters.
+S3Flow is a utility tool designed to generate permutations of AWS S3 bucket names based on common prefixes, company names, and predefined environments. This tool is specially designed for Bug Bounty Hunters and Pentesters.
 
 ---
 
