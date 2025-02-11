@@ -17,7 +17,6 @@ func GenerateWordlist(commonPrefix string, orgName string, environments []string
 	// Raw permutation
 	list = append(list, fmt.Sprintf("%s-%s", orgName, commonPrefix))
 	list = append(list, fmt.Sprintf("%s.%s", orgName, commonPrefix))
-
 	// environment permutations
 	for _, env := range environments {
 		formats := []string{
@@ -27,14 +26,12 @@ func GenerateWordlist(commonPrefix string, orgName string, environments []string
 			list = append(list, fmt.Sprintf(format, orgName, commonPrefix, env))
 		}
 	}
-
 	// host permutations
 	formats := []string{"%s.%s", "%s-%s", "%s%s"}
 	for _, format := range formats {
 		list = append(list, fmt.Sprintf(format, orgName, commonPrefix))
 		list = append(list, fmt.Sprintf(format, commonPrefix, orgName))
 	}
-
 	// keep the unique ones
 	uniqueList := make(map[string]struct{})
 	for _, item := range list {
@@ -54,7 +51,6 @@ func ReadWordlistFromFile(filename string) ([]string, error) {
 		return nil, err
 	}
 	defer file.Close()
-
 	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -70,13 +66,10 @@ func SaveWordlistToFile(wordlist []string, filename string) error {
 		return err
 	}
 	defer file.Close()
-
 	writer := bufio.NewWriter(file)
-
 	// progress bar
 	bar := pb.StartNew(len(wordlist))
 	defer bar.Finish()
-
 	for _, bucket := range wordlist {
 		_, err := writer.WriteString(bucket + "\n")
 		if err != nil {
@@ -85,7 +78,6 @@ func SaveWordlistToFile(wordlist []string, filename string) error {
 		bar.Increment()
 		time.Sleep(1 * time.Millisecond)
 	}
-
 	writer.Flush()
 	return nil
 }
@@ -97,15 +89,10 @@ func main() {
 	outputFile := flag.String("o", "generated_wordlist.txt", "Output file name")
 	mediumFlag := flag.Bool("medium", false, "Use medium-sized environment list")
 	largeFlag := flag.Bool("large", false, "Use large environment list")
+	showEnvFlag := flag.Bool("show-env", false, "Show all predefined environments (small, medium, large)")
 	flag.Parse()
 
-	// required arguments
-	if *wordlistFile == "" || *orgName == "" {
-		fmt.Println("Usage: s3flow -w <wordlist_file> -org <organization_name> [-o <output_file>] [-medium] [-large]")
-		return
-	}
-
-	// environment lists
+	// predefined environment lists
 	smallEnvironments := []string{
 		"dev", "development", "stage", "s3", "staging", "prod", "production", "test",
 	}
@@ -125,6 +112,23 @@ func main() {
 		"us-east", "us-west", "eu-central", "ap-southeast", "global", "region1", "region2",
 		"api", "rest", "graphql", "rpc", "service", "microservice", "backend", "frontend",
 		"logs", "logging", "metrics", "monitoring", "analytics", "reporting", "cache", "cdn", "static", "media", "assets", "files", "uploads", "downloads", "shared", "public", "external",
+	}
+
+	// Show environments if -show-env is set
+	if *showEnvFlag {
+		fmt.Println("Small Environments:")
+		fmt.Println(strings.Join(smallEnvironments, ", "))
+		fmt.Println("\nMedium Environments:")
+		fmt.Println(strings.Join(mediumEnvironments, ", "))
+		fmt.Println("\nLarge Environments:")
+		fmt.Println(strings.Join(largeEnvironments, ", "))
+		return
+	}
+
+	// required arguments
+	if *wordlistFile == "" || *orgName == "" {
+		fmt.Println("Usage: s3flow -w <wordlist_file> -org <organization_name> [-o <output_file>] [-medium] [-large] [-show-env]")
+		return
 	}
 
 	// environment list based on flags
@@ -149,7 +153,6 @@ func main() {
 	for _, commonPrefix := range commonPrefixes {
 		wordlist = append(wordlist, GenerateWordlist(commonPrefix, *orgName, environments)...)
 	}
-
 	fmt.Printf("Generated wordlist with %d items.\n", len(wordlist))
 
 	// write wordlist
@@ -158,6 +161,5 @@ func main() {
 		fmt.Printf("Error saving wordlist to file: %v\n", err)
 		return
 	}
-
 	fmt.Printf("Wordlist saved to '%s'.\n", *outputFile)
 }
