@@ -96,6 +96,9 @@ This will:
 2. Incorporate `MyCompany` into the permutations.
 3. Save the results to `output.txt` using the large environment list.
 
+
+After generating the wordlist we can use the wordlist with tools like [S3Scanner](https://github.com/sa7mon/S3Scanner)
+
 ---
 
 ## **How It Works**
