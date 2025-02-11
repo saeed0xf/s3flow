@@ -53,6 +53,8 @@ S3Flow uses command-line flags to customize its behavior. Here's how to use it:
 s3flow -w <common_prefix_wordlist> -org <company_name> [-o <output_file>]
 ```
 
+Example Common Prefixes: [wordlist](https://raw.githubusercontent.com/koaj/aws-s3-bucket-wordlist/master/list.txt)
+
 ### Flags
 | Flag       | Description                                   | Required? | Default Value         |
 |------------|-----------------------------------------------|-----------|-----------------------|
@@ -67,7 +69,7 @@ s3flow -w wordlist.txt -org MyCompany -o output.txt
 ```
 
 This will:
-1. Use wordlist.txt as the common prefixes.
+1. Use `wordlist.txt` as the common prefixes.
 2. Incorporate `MyCompany` into the permutations.
 3. Save the results to `output.txt`.
 
