@@ -16,9 +16,9 @@ This tool is specially designed for Bug Bounty Hunters and Pentesters.
 
 #### Using Go Install
 
-    ```
-    go install github.com/saeed0xf/s3flow@latest
-    ```
+```bash    
+go install github.com/saeed0xf/s3flow@latest
+```
 
 #### Traditional way
 
