@@ -108,5 +108,6 @@ We welcome contributions from the community! Here's how you can help:
 ## **Contact**
 
 For questions, suggestions, or feedback, feel free to reach out:
-- Twitter/X: [Saeed0x1](https://x.com/saeed0x1) 
+- Twitter/X: [Saeed0x1](https://x.com/saeed0x1)
+- Linkedin: [Saeed0x1](https://www.linkedin.com/in/saeed0x1) 
 - GitHub: [@saeed0xf](https://github.com/saeed0xf)
