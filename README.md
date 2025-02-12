@@ -57,7 +57,7 @@ Example Common Prefixes: [wordlist](https://raw.githubusercontent.com/koaj/aws-s
 |------------|-----------------------------------------------|-----------|-----------------------|
 | `-w`       | Common prefix wordlist file                   | Yes       | N/A                   |
 | `-org`     | Company or organization name                  | Yes       | N/A                   |
-| `-o`       | Output file name                              | No        | `generated_wordlist.txt` |
+| `-o`       | Output file name                              | No        | `generated_bucketlist.txt` |
 | `-medium`  | Use medium-sized environment list             | No        | `false`               |
 | `-large`   | Use large environment list                    | No        | `false`               |
 
