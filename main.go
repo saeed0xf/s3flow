@@ -86,13 +86,13 @@ func main() {
 	// command-line arguments
 	wordlistFile := flag.String("w", "", "Path to the wordlist file (common prefixes)")
 	orgName := flag.String("org", "", "Organization name")
-	outputFile := flag.String("o", "generated_wordlist.txt", "Output file name")
+	outputFile := flag.String("o", "generated_bucketlist.txt", "Output file name")
 	mediumFlag := flag.Bool("medium", false, "Use medium-sized environment list")
 	largeFlag := flag.Bool("large", false, "Use large environment list")
 	showEnvFlag := flag.Bool("show-env", false, "Show all predefined environments (small, medium, large)")
 	flag.Parse()
 
-	// predefined environment lists
+	// predefined environment/suffix lists
 	smallEnvironments := []string{
 		"dev", "development", "stage", "s3", "staging", "prod", "production", "test",
 	}
@@ -127,7 +127,7 @@ func main() {
 
 	// required arguments
 	if *wordlistFile == "" || *orgName == "" {
-		fmt.Println("Usage: s3flow -w <wordlist_file> -org <organization_name> [-o <output_file>] [-medium] [-large] [-show-env]")
+		fmt.Println("Usage: s3flow -w <prefix_wordlist_file> -org <organization_name> [-o <output_file>] [-medium] [-large] [-show-env]")
 		return
 	}
 
