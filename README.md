@@ -1,7 +1,3 @@
-Here’s the updated `README.md` file with the new `-show-env` and `-env-file` flags added, along with explanations for their usage. The rest of the content remains unchanged.
-
----
-
 # **S3Flow**  
 [![Go Version](https://img.shields.io/badge/Go-1.20+-blue)](https://golang.org/)
 
