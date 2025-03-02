@@ -1,3 +1,7 @@
+Here’s the updated `README.md` file with the new `-show-env` and `-env-file` flags added, along with explanations for their usage. The rest of the content remains unchanged.
+
+---
+
 # **S3Flow**  
 [![Go Version](https://img.shields.io/badge/Go-1.20+-blue)](https://golang.org/)
 
@@ -46,7 +50,7 @@ go install github.com/saeed0xf/s3flow@latest
 S3Flow uses command-line flags to customize its behavior. Here's how to use it:
 
 ```bash
-s3flow -w <common_prefix_wordlist> -org <company_name> [-o <output_file>] [-medium] [-large]
+s3flow -w <common_prefix_wordlist> -org <company_name> [-o <output_file>] [-medium] [-large] [-show-env] [-env-file <custom_env_file>]
 ```
 
 Example Common Prefixes: [wordlist](https://raw.githubusercontent.com/koaj/aws-s3-bucket-wordlist/master/list.txt)
@@ -60,6 +64,8 @@ Example Common Prefixes: [wordlist](https://raw.githubusercontent.com/koaj/aws-s
 | `-o`       | Output file name                              | No        | `generated_bucketlist.txt` |
 | `-medium`  | Use medium-sized environment list             | No        | `false`               |
 | `-large`   | Use large environment list                    | No        | `false`               |
+| `-show-env`| Show all predefined environments              | No        | `false`               |
+| `-env-file`| Path to a custom environment file             | No        | N/A                   |
 
 ### Environment Lists
 - **Small**: Includes basic environments like `dev`, `prod`, `stage`, etc.
@@ -95,8 +101,23 @@ This will:
 2. Incorporate `MyCompany` into the permutations.
 3. Save the results to `output.txt` using the large environment list.
 
+#### Show All Predefined Environments
+```bash
+s3flow -show-env
+```
+This will display all predefined environments (small, medium, and large) without generating a wordlist.
 
-After generating the wordlist we can use the wordlist with tools like [S3Scanner](https://github.com/sa7mon/S3Scanner)
+#### Use a Custom Environment File
+```bash
+s3flow -w wordlist.txt -org MyCompany -o output.txt -env-file custom_env.txt
+```
+This will:
+1. Use `wordlist.txt` as the common prefixes.
+2. Incorporate `MyCompany` into the permutations.
+3. Use the environments provided in `custom_env.txt`.
+4. Save the results to `output.txt`.
+
+After generating the wordlist, you can use the wordlist with tools like [S3Scanner](https://github.com/sa7mon/S3Scanner).
 
 ---
 
@@ -105,7 +126,7 @@ After generating the wordlist we can use the wordlist with tools like [S3Scanner
 S3Flow generates permutations by combining:
 1. **Common Prefixes**: User-defined prefixes from the provided wordlist file.
 2. **Company Name**: The organization name provided via the `-org` flag.
-3. **Environments**: Predefined environments like `dev`, `prod`, `stage`, etc., selected based on the `-medium` or `-large` flags.
+3. **Environments**: Predefined environments like `dev`, `prod`, `stage`, etc., selected based on the `-medium`, `-large`, or `-env-file` flags.
 4. **Formats**: Various naming conventions such as `prefix-word-env`, `prefix.word.env`, etc.
 
 The tool ensures no duplicates are present in the final output.
